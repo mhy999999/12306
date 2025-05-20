@@ -10,6 +10,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Users {
+
   private long id;
   private String username;
   private String password;
