@@ -4,4 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.tickets.mapper.UserMapper">
 
+     <select id="login" resultType="com.example.tickets.pojo.entity.Users">
+         select
+             id,
+             username,
+             password,
+             real_name as realName,
+             id_card as idCard,
+             phone,
+             user_type as userType,
+             create_time as createTime
+         from users
+         where username = #{username} and password = #{password}
+     </select>
+
 </mapper>
