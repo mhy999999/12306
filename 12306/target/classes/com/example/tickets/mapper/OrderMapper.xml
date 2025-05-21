@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.tickets.mapper.OrderMapper">
+
+    <select id="getOrderByUerId" resultType="com.example.tickets.pojo.vo.OrderInfoVO">
+        SELECT
+            o.id AS order_id,
+            o.order_no,
+            o.status,
+            o.total_price,
+            o.created_at,
+            t.train_number,
+            dep_station.station_name AS departure_station,
+            arr_station.station_name AS arrival_station,
+            td.schedule_date,
+            t.departure_time,
+            t.arrival_time,
+            t.duration,
+            td.business_available,
+            td.first_available,
+            td.second_available
+        FROM
+            orders o
+                JOIN
+            train_date td ON o.date_id = td.id
+                JOIN
+            trains t ON td.train_id = t.id
+                JOIN
+            stations dep_station ON t.departure_station_id = dep_station.id
+                JOIN
+            stations arr_station ON t.arrival_station_id = arr_station.id
+        WHERE
+            o.user_id = #{userId}
+        ORDER BY
+            o.created_at DESC;
+    </select>
+</mapper>
