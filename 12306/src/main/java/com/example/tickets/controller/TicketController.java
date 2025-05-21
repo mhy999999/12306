@@ -17,7 +17,12 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    /**
+     * 查询某用户所有票务信息
+     * @param realName
+     * @return
+     */
+    @CrossOrigin(origins = "")
     @GetMapping("/ticket")
     public Result getTicketByName(@RequestParam String realName){
 
@@ -27,14 +32,19 @@ public class TicketController {
         return Result.success(list);
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    /**
+     * 购买车票
+     * @param butTicketDTO
+     * @return
+     */
+    @CrossOrigin(origins = "")
     @PostMapping("/ticket/buy")
     public Result buyTicket(@RequestBody ButTicketDTO butTicketDTO) {
 
-        ticketService.buyTicket(butTicketDTO);
+        List<Tickets> list = ticketService.buyTicket(butTicketDTO);
 //        log.info("查询所有票务信息:{}",list);
 
-        return Result.success();
+        return Result.success(list);
     }
 
 }
