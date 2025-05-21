@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -18,10 +20,11 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Result add(Trains trains) {
-        LocalDateTime departureTime = trains.getDepartureTime();
-        LocalDateTime arrivalTime = trains.getArrivalTime();
+        // 合并日期和时间
+        LocalDateTime departureDateTime = trains.getScheduleDate().atTime(trains.getDepartureTime());
+        LocalDateTime arrivalDateTime = trains.getScheduleDate().atTime(trains.getArrivalTime());
 
-        Duration duration = Duration.between(departureTime, arrivalTime);
+        Duration duration = Duration.between(departureDateTime, arrivalDateTime);
         long totalHours = duration.toHours();      // 自动包含天数转换的小时数
         int minutes = duration.toMinutesPart();    // 扣除整小时后的剩余分钟
 
@@ -29,12 +32,23 @@ public class CarServiceImpl implements CarService {
         trains.setDuration(durationStr);
 
         carMapper.add(trains);
+
+        trains.setBusinessAvailable(trains.getBusinessSeats());
+        trains.setFirstAvailable(trains.getFirstSeats());
+        trains.setSecondAvailable(trains.getSecondSeats());
+        carMapper.addTrainDate(trains);
         return Result.success(trains);
     }
 
     @Override
     public Result selectAll() {
         List<Trains> trains = carMapper.selectAll();
+        return Result.success(trains);
+    }
+
+    @Override
+    public Result selectCarsByDateAndStartEndpoint(LocalDate dateTime, LocalTime startTime, long startStationId, long endStationId) {
+        List<Trains> trains = carMapper.selectCarsByDateAndStartEndpoint(dateTime,  startTime, startStationId, endStationId);
         return Result.success(trains);
     }
 
