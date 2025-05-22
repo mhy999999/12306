@@ -49,5 +49,8 @@
             AND departure_station_id = #{startStationId}
             AND arrival_station_id = #{endStationId}
     </select>
+    <select id="selectAllStations" resultType="com.example.tickets.pojo.entity.Stations">
+        SELECT * FROM stations
+    </select>
 
 </mapper>

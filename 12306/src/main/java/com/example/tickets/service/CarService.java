@@ -13,4 +13,6 @@ public interface CarService {
     Result selectAll();
 
     Result selectCarsByDateAndStartEndpoint(LocalDate dateTime, LocalTime startTime, long startStationId, long endStationId);
+
+    Result selectAllStations();
 }

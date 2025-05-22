@@ -67,4 +67,16 @@ public class CarsController {
         return result;
     }
 
+
+    /**
+     * 查询所有站点
+     * @return
+     */
+    @CrossOrigin(origins = "*")
+    @GetMapping("/Cars/SelectaAllStations")
+    public Result selectaAllStations() {
+        Result result = carService.selectAllStations();
+        return result;
+    }
+
 }

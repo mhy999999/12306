@@ -1,5 +1,6 @@
 package com.example.tickets.mapper;
 
+import com.example.tickets.pojo.entity.Stations;
 import com.example.tickets.pojo.entity.Trains;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,4 +18,6 @@ public interface CarMapper {
     List<Trains> selectCarsByDateAndStartEndpoint(LocalDate dateTime, LocalTime startTime, long startStationId, long endStationId);
 
     void addTrainDate(Trains trains);
+
+    List<Stations> selectAllStations();
 }

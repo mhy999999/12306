@@ -2,6 +2,7 @@ package com.example.tickets.service.impl;
 
 import com.example.tickets.mapper.CarMapper;
 import com.example.tickets.pojo.Result;
+import com.example.tickets.pojo.entity.Stations;
 import com.example.tickets.pojo.entity.Trains;
 import com.example.tickets.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,12 @@ public class CarServiceImpl implements CarService {
     @Override
     public Result selectCarsByDateAndStartEndpoint(LocalDate dateTime, LocalTime startTime, long startStationId, long endStationId) {
         List<Trains> trains = carMapper.selectCarsByDateAndStartEndpoint(dateTime,  startTime, startStationId, endStationId);
+        return Result.success(trains);
+    }
+
+    @Override
+    public Result selectAllStations() {
+        List<Stations> trains = carMapper.selectAllStations();
         return Result.success(trains);
     }
 
