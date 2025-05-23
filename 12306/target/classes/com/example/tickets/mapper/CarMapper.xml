@@ -13,13 +13,44 @@
         #{departureTime}, #{arrivalTime}, #{duration}, 
         #{businessSeats}, #{firstSeats}, #{secondSeats})
     </insert>
+
+    <insert id="addTrainDate">
+        INSERT INTO train_date
+        (train_id, schedule_date, business_available, first_available, second_available)
+        VALUES
+        ((select id from trains where train_number = #{trainNumber}),
+         #{scheduleDate}, #{businessAvailable}, #{firstAvailable}, #{secondAvailable})
+    </insert>
+
     <select id="selectAll" resultType="com.example.tickets.pojo.entity.Trains">
         select trains.id,train_number,departure_time,arrival_time,duration,business_seats,first_seats,second_seats,
                (select station_name from stations where departure_station_id = stations.id ) as departure_station_name,
                (select city from stations where departure_station_id = stations.id) as departure_station_city,
                (select station_name from stations where arrival_station_id = stations.id) as arrival_station_name,
-                (select city from stations where arrival_station_id = stations.id) as arrival_station_city
+                (select city from stations where arrival_station_id = stations.id) as arrival_station_city,
+               td.*
         from trains
                  left join stations on trains.departure_station_id = stations.id
+                 left join train_date td on trains.id = td.train_id
     </select>
+    <select id="selectCarsByDateAndStartEndpoint" resultType="com.example.tickets.pojo.entity.Trains">
+        SELECT trains.id,train_number,departure_time,arrival_time,duration,business_seats,first_seats,second_seats,
+            (SELECT station_name FROM stations WHERE departure_station_id = stations.id ) AS departure_station_name,
+            (SELECT city FROM stations WHERE departure_station_id = stations.id) AS departure_station_city,
+            (SELECT station_name FROM stations WHERE arrival_station_id = stations.id) AS arrival_station_name,
+            (SELECT city FROM stations WHERE arrival_station_id = stations.id) AS arrival_station_city,
+            td.*
+        FROM trains
+        LEFT JOIN stations ON trains.departure_station_id = stations.id
+        LEFT JOIN train_date td ON trains.id = td.train_id
+        WHERE
+            td.schedule_date = #{dateTime}  <!-- 修正为日期参数 -->
+            AND TIME(trains.departure_time) >= #{startTime}  <!-- 明确比较时间部分 -->
+            AND departure_station_id = #{startStationId}
+            AND arrival_station_id = #{endStationId}
+    </select>
+    <select id="selectAllStations" resultType="com.example.tickets.pojo.entity.Stations">
+        SELECT * FROM stations
+    </select>
+
 </mapper>

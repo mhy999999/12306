@@ -21,7 +21,7 @@ public class UserController {
      * 登录
      * @param users
      */
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = "*")
     @PostMapping("/user/login")
     public Result login(@RequestBody Users users){
         Result result =userService.login(users);

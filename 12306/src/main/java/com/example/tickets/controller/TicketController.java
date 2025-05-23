@@ -22,7 +22,7 @@ public class TicketController {
      * @param realName
      * @return
      */
-    @CrossOrigin(origins = "")
+    @CrossOrigin(origins = "*")
     @GetMapping("/ticket")
     public Result getTicketByName(@RequestParam String realName){
 
@@ -37,7 +37,7 @@ public class TicketController {
      * @param butTicketDTO
      * @return
      */
-    @CrossOrigin(origins = "")
+    @CrossOrigin(origins = "*")
     @PostMapping("/ticket/buy")
     public Result buyTicket(@RequestBody ButTicketDTO butTicketDTO) {
 
