@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
             return Result.error("用户不存在");
         } else {
             if (Objects.equals(users.getUserType(), "user")) {
-                return Result.success("用户登录成功");
+                return Result.success(users);
             } else if (Objects.equals(users.getUserType(), "admin")) {
-                return Result.success("管理员登录成功");
+                return Result.success(users);
             }else  {
                 return Result.error("用户数据错误");
             }
